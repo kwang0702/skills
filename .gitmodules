@@ -4,3 +4,6 @@
 [submodule "pua"]
 	path = pua
 	url = https://github.com/tanweai/pua.git
+[submodule "anthropics"]
+	path = anthropics
+	url = https://github.com/anthropics/skills.git
