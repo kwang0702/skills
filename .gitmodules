@@ -7,3 +7,6 @@
 [submodule "anthropics"]
 	path = anthropics
 	url = https://github.com/anthropics/skills.git
+[submodule "web-access"]
+	path = web-access
+	url = https://github.com/eze-is/web-access.git
