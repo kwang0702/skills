@@ -10,3 +10,6 @@
 [submodule "web-access"]
 	path = web-access
 	url = https://github.com/eze-is/web-access.git
+[submodule "claude-mem"]
+	path = claude-mem
+	url = https://github.com/thedotmack/claude-mem.git
