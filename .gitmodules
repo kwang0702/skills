@@ -19,3 +19,6 @@
 [submodule "ui-ux-pro-max"]
 	path = ui-ux-pro-max
 	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git
+[submodule "scrapling"]
+	path = scrapling
+	url = https://github.com/D4Vinci/Scrapling.git
