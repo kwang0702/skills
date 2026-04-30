@@ -17,6 +17,7 @@ A comprehensive reference for all skills in this repository. Use this to quickly
 | [design-for-ai](#design-for-ai) | Visual design theory, auditing | font choice, color palette, layout, visual hierarchy |
 | [scrapling](#scrapling) | Stealth web scraping, anti-bot bypass | scrape, crawl, Cloudflare bypass, JS rendering, spider |
 | [mattpocock](#mattpocock) | Engineering workflow, alignment, TDD | grill me, TDD, triage, PRD, diagnose bug, zoom out |
+| [neat-freak](#neat-freak) | End-of-session docs & memory cleanup | sync up, tidy up docs, update memory, /sync, 整理文档 |
 | [anthropics/algorithmic-art](#algorithmic-art) | Generative art with p5.js | generative art, flow field, particle system, algorithmic |
 | [anthropics/brand-guidelines](#brand-guidelines) | Anthropic brand styling | Anthropic brand, branded artifact, company design |
 | [anthropics/canvas-design](#canvas-design) | Visual posters, artwork, PDF/PNG output | poster, artwork, visual design, canvas |
@@ -979,6 +980,58 @@ Then in the agent, run `/setup-matt-pocock-skills` — it asks which issue track
 - Heavily TypeScript/JavaScript flavored (Matt Pocock's TS background)
 - Slash command names use kebab-case (e.g., `/grill-me`, not `/grillme`)
 - Some skills assume GitHub issues — others support Linear and local files via setup
+
+---
+
+### neat-freak
+
+**Location:** `neat-freak/`
+**Source:** Static copy of `neat-freak/` from https://github.com/KKKKhazix/khazix-skills
+
+**What it does:**
+End-of-session knowledge cleanup with **OCD-level rigor**. Acts as a "knowledge base editor" (not a recorder) — reconciles project documentation (`CLAUDE.md`, `README.md`, `docs/`) and agent memory against the actual code state, so nothing rots between sessions or hand-offs. Cross-platform: works on Claude Code, OpenAI Codex, OpenCode, and OpenClaw.
+
+**When to use (auto-trigger phrases):**
+
+English: *"sync up"* · *"tidy up docs"* · *"update memory"* · *"clean up docs"* · *"/sync"* · *"/neat"* · *"new dev should be able to onboard directly"*
+
+Chinese: *"同步一下"* · *"整理文档"* · *"整理一下"* · *"更新记忆"* · *"梳理一下"* · *"收尾"* · *"这个阶段做完了"*
+
+Also triggers on: stale docs reports, conflicting memories, clean handoffs to teammates or other agents, dev milestone completion. Bare *"整理"* / *"tidy"* with prior dev context counts.
+
+**Core principle — three layers of knowledge with three audiences:**
+
+| Layer | Audience | Purpose | Cost of being out of date |
+|---|---|---|---|
+| **Agent memory** (Claude Code, Codex, OpenCode, OpenClaw) | The agent itself, across sessions | Personal preferences, non-obvious project facts, cross-project references | Next session, agent forgets prior decisions |
+| **Project root** (`CLAUDE.md` / `AGENTS.md`) | The AI working in this project | Project conventions, structure, red lines, env vars, route lists | Next AI session goes down wrong paths |
+| **Project `docs/` + `README.md`** | **Other people** — human teammates, downstream devs, future AIs | Onboarding guide, architecture, runbook, handoff notes, API reference | Other people / systems can't onboard or operate |
+
+These three layers serve different audiences and don't overlap. Writing "added 5 device-flow routes" in `CLAUDE.md` is **not** the same as documenting "how downstream apps integrate this flow" in `docs/integration-guide.md` — both must be written.
+
+**Execution workflow:**
+
+1. **Inventory current state** — `ls` everything, enumerate every `.md`, read all of them. No skipping. Output an internal file checklist (assess / change / leave).
+2. **Identify changes via "change-impact matrix"** — don't just look at what's new in the conversation; trace which doc layers each new fact touches. Common patterns:
+   - New API/route → `CLAUDE.md` route list + integration-guide + architecture's Routes section
+   - New env var → `CLAUDE.md` env table + runbook + downstream integration-guide
+   - New DB table → `CLAUDE.md` + architecture Data Model
+   - **Cross-project change** → both upstream and downstream `docs/` (most commonly missed)
+   - Memory: relative time → absolute dates · expired facts → fix · duplicates → merge · completed todos → delete
+3. **Actually edit files** — use Edit/Write/Delete tools. "Here's how I would change it" doesn't count as done.
+
+**Key references inside the skill:**
+- `references/agent-paths.md` — exact memory paths per agent platform (Claude Code, Codex, OpenCode, OpenClaw)
+- `references/sync-matrix.md` — comprehensive change-type → docs-affected mapping table
+
+**How to invoke:**
+Just say a trigger phrase ("sync up", "tidy up docs", "整理文档", etc.) at the end of a working session. The skill auto-activates.
+
+**Limitations:**
+- Static copy in this repo — not auto-updated from upstream
+- Manual update: re-clone `KKKKhazix/khazix-skills` and copy `neat-freak/` over the existing folder
+- Most valuable when the project actually has `docs/` and a `CLAUDE.md` to maintain — minimal value on greenfield repos
+- Designed for AI-collaborative dev workflows; less useful for solo work without long-running agent context
 
 ---
 
