@@ -22,3 +22,6 @@
 [submodule "scrapling"]
 	path = scrapling
 	url = https://github.com/D4Vinci/Scrapling.git
+[submodule "mattpocock"]
+	path = mattpocock
+	url = https://github.com/mattpocock/skills.git
