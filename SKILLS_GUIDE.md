@@ -18,6 +18,7 @@ A comprehensive reference for all skills in this repository. Use this to quickly
 | [scrapling](#scrapling) | Stealth web scraping, anti-bot bypass | scrape, crawl, Cloudflare bypass, JS rendering, spider |
 | [mattpocock](#mattpocock) | Engineering workflow, alignment, TDD | grill me, TDD, triage, PRD, diagnose bug, zoom out |
 | [neat-freak](#neat-freak) | End-of-session docs & memory cleanup | sync up, tidy up docs, update memory, /sync, 整理文档 |
+| [gstack](#gstack) | 44 self-managing slash commands (overlap map only) | /qa, /ship, /investigate, /plan-ceo-review, /office-hours, etc. |
 | [anthropics/algorithmic-art](#algorithmic-art) | Generative art with p5.js | generative art, flow field, particle system, algorithmic |
 | [anthropics/brand-guidelines](#brand-guidelines) | Anthropic brand styling | Anthropic brand, branded artifact, company design |
 | [anthropics/canvas-design](#canvas-design) | Visual posters, artwork, PDF/PNG output | poster, artwork, visual design, canvas |
@@ -1032,6 +1033,45 @@ Just say a trigger phrase ("sync up", "tidy up docs", "整理文档", etc.) at t
 - Manual update: re-clone `KKKKhazix/khazix-skills` and copy `neat-freak/` over the existing folder
 - Most valuable when the project actually has `docs/` and a `CLAUDE.md` to maintain — minimal value on greenfield repos
 - Designed for AI-collaborative dev workflows; less useful for solo work without long-running agent context
+
+---
+
+### gstack
+
+**Location:** `~/.claude/skills/gstack/` *(installed separately, gitignored from this repo)*
+**Source:** https://github.com/garrytan/gstack
+
+**What it is:**
+A self-managing workflow system from Garry Tan (YC president). Installs 44 slash commands covering the full software lifecycle — CEO/eng/design plan reviews, QA, debugging, security audit, ship workflow, browser tooling, and more. Auto-updates silently on session start.
+
+**How to discover its commands:**
+Type `/` in Claude Code to see live descriptions for everything currently installed. Don't try to memorize from documentation — gstack updates frequently, so the in-app list is always more accurate than anything written here.
+
+**This guide doesn't list each command** because gstack documents itself well, the commands are discoverable, and any per-command list here will go stale. What this guide *does* list is **where gstack overlaps with your other skills**, since that's the one thing gstack's own docs can't tell you.
+
+**Skill overlap map — pick the right tool when several could work:**
+
+| Task | First choice | Use instead when… |
+|---|---|---|
+| **Web scraping** | `scrapling` | use `/scrape` (gstack) for fast structured pulls you want to codify into a reusable script via `/skillify` |
+| **Browser automation** | `/browse` (gstack) for headless QA, ~100ms per command | use `web-access` for Chinese sites (小红书, 微博), or `/open-gstack-browser` when you want to *watch* the browser work in real time |
+| **Web app QA** | `/qa` (gstack) for the test-fix-verify loop | use `/qa-only` (gstack) for report-only, or `anthropics/webapp-testing` for one-off Playwright scripts |
+| **Bug debugging** | `/investigate` (gstack) or `mattpocock /diagnose` — nearly identical | both follow the same root-cause-first methodology, pick whichever wording you prefer |
+| **Plan review (before coding)** | `/plan-ceo-review`, `/plan-eng-review`, `/plan-design-review`, `/plan-devex-review` (gstack — role-based) | use `superpowers` for a full TDD lifecycle, or `mattpocock /grill-me` for pure alignment interrogation before any plan exists |
+| **Brainstorming a new idea** | `/office-hours` (gstack) — six YC forcing questions | use `mattpocock /grill-me` for engineering-flavored alignment grilling instead of business-flavored |
+| **Doc cleanup** | `neat-freak` for end-of-session sync (CLAUDE.md + memory + docs/) | use `/document-release` (gstack) for post-PR doc updates after merging |
+| **PDF generation** | `anthropics/canvas-design` for visual posters / artistic PDFs | use `/make-pdf` (gstack) to turn an existing markdown file into a publication-quality document with TOC, page numbers, page breaks |
+| **Design system** | `/design-consultation` (gstack) for a new project from scratch | use `design-for-ai` for design *theory* and audits, or `anthropics/frontend-design` for distinctive production-grade UI |
+| **PR review** | `/review` (gstack) for pre-landing structural review | layer `/codex` (gstack) on top for an adversarial second opinion via OpenAI Codex CLI |
+| **Security audit** | `/cso` (gstack) — OWASP, STRIDE, supply chain, two depth modes | the built-in `/security-review` is shallower; use `/cso` daily mode for routine, comprehensive mode monthly |
+| **Memory/context across sessions** | `claude-mem` for full per-session capture and semantic recall | use `/context-save` and `/context-restore` (gstack) for explicit checkpoint-style save/resume of *one specific* working state |
+
+**Update / uninstall:**
+- Update: `/gstack-upgrade` or just wait — it auto-pulls at session start (throttled to once/hour)
+- Uninstall: `rm -rf ~/.claude/skills/gstack` and remove `gstack/` references from your `CLAUDE.md`
+
+**Why it's not a submodule in this repo:**
+gstack auto-updates by running `git pull` inside its own directory. A submodule pointer would fight that. Treating it as a separately-installed system (and `.gitignore`-ing it from this repo) is the correct integration.
 
 ---
 
