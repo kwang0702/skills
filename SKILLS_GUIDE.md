@@ -15,6 +15,8 @@ A comprehensive reference for all skills in this repository. Use this to quickly
 | [agent-skills](#agent-skills) | React/Next.js, web design, deployment | React component, Next.js, Vercel deploy, animation |
 | [ui-ux-pro-max](#ui-ux-pro-max) | UI design systems, styles, palettes | build UI, design dashboard, landing page, design system |
 | [design-for-ai](#design-for-ai) | Visual design theory, auditing | font choice, color palette, layout, visual hierarchy |
+| [scrapling](#scrapling) | Stealth web scraping, anti-bot bypass | scrape, crawl, Cloudflare bypass, JS rendering, spider |
+| [mattpocock](#mattpocock) | Engineering workflow, alignment, TDD | grill me, TDD, triage, PRD, diagnose bug, zoom out |
 | [anthropics/algorithmic-art](#algorithmic-art) | Generative art with p5.js | generative art, flow field, particle system, algorithmic |
 | [anthropics/brand-guidelines](#brand-guidelines) | Anthropic brand styling | Anthropic brand, branded artifact, company design |
 | [anthropics/canvas-design](#canvas-design) | Visual posters, artwork, PDF/PNG output | poster, artwork, visual design, canvas |
@@ -842,6 +844,141 @@ Create, read, edit, and analyze Excel spreadsheets with full formula, formatting
 **Limitations:**
 - LibreOffice required for recalculation
 - Financial model conventions are strict
+
+---
+
+## Additional Top-Level Skills
+
+---
+
+### scrapling
+
+**Location:** `scrapling/`
+**Source:** https://github.com/D4Vinci/Scrapling
+
+**What it does:**
+Adaptive web scraping framework with anti-bot bypass built in. Handles everything from a single request to a full-scale spider crawl. Its parser learns from website changes and automatically relocates elements when pages update. Its fetchers bypass Cloudflare Turnstile and similar anti-bot systems out of the box.
+
+**When to use:**
+- Scraping any website (especially when WebFetch fails)
+- Sites with Cloudflare or similar anti-bot protections
+- JavaScript-rendered or dynamic content
+- Login-required pages
+- Building spiders for large-scale crawls
+- When you want to avoid getting your IP blocked
+
+**Key capabilities:**
+- **Three fetcher tiers** — escalate as needed:
+  - `Fetcher` (HTTP requests, fastest)
+  - `DynamicFetcher` (full browser, handles JS)
+  - `StealthyFetcher` (full browser + anti-detection)
+- Browser fingerprint impersonation (random Chrome, Firefox, Safari versions)
+- Cloudflare Turnstile auto-solving (no captcha service needed)
+- `humanize=True` — mouse movement on page (defeats behavioral detection)
+- `block_webrtc=True` — prevents IP leaks via WebRTC
+- DNS over HTTPS (prevents DNS leaks when using proxies)
+- Ad/tracker blocking (~3,500 domains) — lighter, faster, more human-like
+- `--ai-targeted` mode — extracts only main content, sanitizes hidden elements (anti–prompt injection)
+- Spiders framework (Scrapy-like) with concurrent requests, multiple sessions, pause/resume via crawldir checkpoints
+- Proxy rotation built in
+- CSS selectors, XPath, and BeautifulSoup-style `find_all` all supported
+- Adaptive parser — relocates elements when sites change layout
+
+**CLI commands:**
+- `scrapling extract get` — simple sites/blogs
+- `scrapling extract fetch` — JS-rendered modern web apps
+- `scrapling extract stealthy-fetch` — protected sites, Cloudflare, anti-bot
+
+**How to invoke:**
+1. Install once: `pip install "scrapling[all]>=0.4.7"` then `scrapling install --force`
+2. Use CLI for one-offs: `scrapling extract stealthy-fetch URL output.md --ai-targeted`
+3. Use Python for advanced: `from scrapling.fetchers import StealthyFetcher`
+
+**Best practices to avoid IP blocking:**
+- Default to `StealthyFetcher` for any unknown target
+- Always set `humanize=True`, `block_webrtc=True`, `network_idle=True`
+- Add 2–6s random delays between requests
+- Use Google search as a discovery layer (more resilient than guessing URL slugs)
+- Use `--ai-targeted` to also defend against prompt injection in scraped content
+
+**Limitations:**
+- Requires Python 3.10+
+- Browser dependencies are large (~1GB after `scrapling install`)
+- AGPL-licensed framework — check before commercial use
+
+**Guardrails (always):**
+- Only scrape content you're authorized to access
+- Respect robots.txt — use `robots_txt_obey=True` on spiders
+- Don't bypass paywalls or auth without permission
+- Add `download_delay` for large crawls
+
+---
+
+### mattpocock
+
+**Location:** `mattpocock/`
+**Source:** https://github.com/mattpocock/skills
+
+**What it does:**
+A collection of engineering workflow skills focused on **alignment, feedback loops, and software design** — Matt Pocock's daily kit for "real engineering, not vibe coding." Designed to be small, composable, and based on decades of engineering practice (Pragmatic Programmer, DDD, Extreme Programming, A Philosophy of Software Design).
+
+**When to use:**
+- Starting a new feature or change (use `/grill-me` first)
+- Debugging hard bugs or perf regressions (`/diagnose`)
+- Writing tests properly (`/tdd`)
+- Triaging a backlog of issues (`/triage`)
+- Producing a PRD from conversation (`/to-prd`)
+- Splitting a plan into shippable issues (`/to-issues`)
+- Rescuing a codebase that's becoming a ball of mud (`/improve-codebase-architecture`)
+- Compressing token usage (`/caveman`)
+
+**Setup (run once per repo):**
+```bash
+npx skills@latest add mattpocock/skills
+```
+Then in the agent, run `/setup-matt-pocock-skills` — it asks which issue tracker (GitHub/Linear/local), what triage labels you use, and where docs live.
+
+**Sub-skills:**
+
+**Engineering (daily code work):**
+| Slash command | Purpose |
+|---|---|
+| `/grill-me` | Get relentlessly interviewed about a plan until every branch is resolved |
+| `/grill-with-docs` | Same as `/grill-me` but also updates `CONTEXT.md` and writes ADRs inline |
+| `/diagnose` | Disciplined bug-diagnosis loop: reproduce → minimise → hypothesise → instrument → fix → regression-test |
+| `/tdd` | Red-green-refactor TDD with strong guidance on good vs bad tests |
+| `/triage` | Triage issues through a state machine of triage roles |
+| `/to-prd` | Synthesize the current conversation into a PRD and submit as a GitHub issue |
+| `/to-issues` | Break a plan/spec/PRD into independently-grabbable issues using vertical slices |
+| `/improve-codebase-architecture` | Find "deepening" opportunities — informed by `CONTEXT.md` and ADRs |
+| `/zoom-out` | Get broader/higher-level perspective on unfamiliar code |
+| `/setup-matt-pocock-skills` | Per-repo scaffolding for the other engineering skills |
+
+**Productivity (general workflow):**
+| Slash command | Purpose |
+|---|---|
+| `/grill-me` | Get interviewed about a plan or design |
+| `/caveman` | Ultra-compressed communication mode — cuts token usage ~75% by dropping filler |
+| `/write-a-skill` | Create new skills with proper structure and progressive disclosure |
+
+**Misc (kept around but rarely used):**
+| Slash command | Purpose |
+|---|---|
+| `/git-guardrails-claude-code` | Set up Claude Code hooks blocking dangerous git commands (push, reset --hard, clean) |
+| `/migrate-to-shoehorn` | Migrate `as` type assertions to `@total-typescript/shoehorn` |
+| `/scaffold-exercises` | Create exercise directory structures with sections, problems, solutions, explainers |
+| `/setup-pre-commit` | Set up Husky + lint-staged + Prettier + type checking + tests |
+
+**Key philosophical underpinnings:**
+- **Alignment first** — most failures are misalignment, fix with grilling
+- **Shared language** — build `CONTEXT.md` and ADRs to compress jargon and stabilize naming
+- **Feedback loops** — types, browser access, automated tests
+- **Care about design** — agents accelerate software entropy; counteract with deliberate architecture work
+
+**Limitations:**
+- Heavily TypeScript/JavaScript flavored (Matt Pocock's TS background)
+- Slash command names use kebab-case (e.g., `/grill-me`, not `/grillme`)
+- Some skills assume GitHub issues — others support Linear and local files via setup
 
 ---
 
